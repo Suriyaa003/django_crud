@@ -28,19 +28,19 @@
         <div class="col-md-4">
           <h2 class="text-white bg-dark text-center p-3">INSERT STUDENT DETAILS</h2>
           <br>
-          <form action="" method="post">
+          <form action="/insert" method="post">{% csrf_token %}
             <div class="form-group">
               <input type="name" placeholder="Enter the Student Name" class="form-control" name="name" required>
             </div>
-
+<br>
             <div class="form-group">
               <input type="email" placeholder="Enter the Student Email" class="form-control" name="email" required>
             </div>
-
+<br>
             <div class="form-group">
               <input type="number" placeholder="Enter the Student Age" class="form-control" name="age" required>
             </div>
-
+<br>
             <div class="form-group">
               <select id="gender" class="form-control" name="gender" required>
                 <option selected>Select gender</option>
@@ -49,6 +49,8 @@
                 <option value="other">Other</option>
               </select>
             </div>
+            <br>
+            
             <div class="d-grid gap-2">
               <button class="btn btn-success" type="submit">Submit</button>
             </div>
@@ -59,10 +61,48 @@
         <!-- Placeholder Column -->
         <div class="col-md-8">
           <!-- Content to be added later -->
-          <h2 class="text-center">Placeholder for Additional Content</h2>
-        </div>
+          <h2 class="text-center text-white bg-dark p-3">Student Details</h2>
+
+          {%  for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong> You should check in on some of those fields below.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}   
+
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for d in data %}
+              <tr>
+                <th scope="row">{{ d.id }}</th>
+                <td>{{ d.name }}</td>
+                <td>{{ d.email }}</td>
+                <td>{{ d.age }}</td>
+                <td>{{ d.gender }}</td>
+                <td><a href="/update/{{ d.id }}" class="btn btn-warning">Edit</a></td>
+                <td><a href="/delete/{{ d.id }}" class="btn btn-danger">Delete</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div> 
       </div>
     </div>
+
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
